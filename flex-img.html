@@ -1,0 +1,40 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<polymer-element name="flex-img" attributes="src" >
+	<template>
+		<div id="containerDiv" style="width:100%;display:inline-flex;position:relative;flex-shrink:1">
+			<div id="dummy" style="padding-bottom:{{height}}" ></div>
+			<img src={{src}} style="position:absolute;width:100%;top:0;bottom:0;left:0;right:0;">
+		</img>
+		</div>
+	</template>
+	<script>
+	var aspectRatio;
+	var widthVal = 0;
+	Polymer({
+		created: function() {
+		},
+		ready:function() {
+			widthVal = this.getValue(this.style.width);
+			heightVal = this.getValue(this.style.height);
+			aspectRatio = widthVal / heightVal;
+			heightPer = (heightVal/widthVal)*100;
+			this.$.dummy.style.paddingBottom = heightPer + "%";
+		},
+		getValue:function(str) {
+			str = str.trim().toLowerCase();
+			var val = 0;
+			if (str.match(/px/g).length > 0) {
+				val = parseInt(str.substring(0, str.indexOf("px")));
+			} else if (str.match(/em/g).length > 0) {
+				console.log("Only px dimension units are supported");
+			} else {
+				val = parseInt(str);
+			}
+			return val;
+		},
+		
+		src:'',
+	});
+	</script>
+</polymer-element>
